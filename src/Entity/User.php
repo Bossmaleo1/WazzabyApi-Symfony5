@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -93,6 +95,16 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $tokenUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PublicMessage", mappedBy="user")
+     */
+    private $publicMessage;
+
+    public function __construct()
+    {
+        $this->publicMessage = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -275,6 +287,37 @@ class User
     public function setTokenUser(string $tokenUser): self
     {
         $this->tokenUser = $tokenUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PublicMessage[]
+     */
+    public function getPublicMessage(): Collection
+    {
+        return $this->publicMessage;
+    }
+
+    public function addPublicMessage(PublicMessage $publicMessage): self
+    {
+        if (!$this->publicMessage->contains($publicMessage)) {
+            $this->publicMessage[] = $publicMessage;
+            $publicMessage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicMessage(PublicMessage $publicMessage): self
+    {
+        if ($this->publicMessage->contains($publicMessage)) {
+            $this->publicMessage->removeElement($publicMessage);
+            // set the owning side to null (unless already changed)
+            if ($publicMessage->getUser() === $this) {
+                $publicMessage->setUser(null);
+            }
+        }
 
         return $this;
     }

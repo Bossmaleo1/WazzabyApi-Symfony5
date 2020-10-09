@@ -27,7 +27,21 @@ class Problematic
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $icon;
+
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $language;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoryProblematic", inversedBy="problematic")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
 
     public function getId(): ?int
     {
@@ -54,6 +68,30 @@ class Problematic
     public function setLanguage(string $language): self
     {
         $this->language = $language;
+
+        return $this;
+    }
+
+    public function getCategory(): ?CategoryProblematic
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CategoryProblematic $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(string $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }

@@ -29,6 +29,12 @@ class PublicMessagePicture
      */
     private $extension;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PublicMessage", inversedBy="publicMessagePicture")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $publicMessage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +60,18 @@ class PublicMessagePicture
     public function setExtension(string $extension): self
     {
         $this->extension = $extension;
+
+        return $this;
+    }
+
+    public function getPublicMessage(): ?PublicMessage
+    {
+        return $this->publicMessage;
+    }
+
+    public function setPublicMessage(?PublicMessage $publicMessage): self
+    {
+        $this->publicMessage = $publicMessage;
 
         return $this;
     }
