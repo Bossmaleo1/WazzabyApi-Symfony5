@@ -7,12 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource()
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -95,6 +96,11 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $tokenUser;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PublicMessage", mappedBy="user")
@@ -320,5 +326,37 @@ class User
         }
 
         return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getUsername()
+    {
+
     }
 }

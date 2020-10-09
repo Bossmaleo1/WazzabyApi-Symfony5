@@ -5,31 +5,75 @@ namespace App\DataFixtures;
 use App\Entity\CategoryProblematic;
 use App\Entity\Problematic;
 use App\Entity\PublicMessage;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder) {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         // $product = new Product();
         // $manager->persist($product);
 
-        $this->loadCategoryProblematic($manager);
-        $this->loadProblematic($manager);
+        /*$this->loadCategoryProblematic($manager);
+        $this->loadProblematic($manager);*/
         //$this->loadProblematic($manager);
         //$manager->flush();
+
+        $this->loadUsers($manager);
     }
 
 
-    public function loadUsers(ObjectManager $manager) {
 
+
+    public function loadPublicMessagePicture(ObjectManager $manager) {
+        $publicMessage = new PublicMessage();
+        //$publicMessage->
     }
 
     public function loadPublicMessage(ObjectManager $manager) {
         $publicMessage = new PublicMessage();
         //$publicMessage->
     }
+
+    public function loadUsers(ObjectManager $manager) {
+        $user = new User();
+        $user->setFirstname("Sidney");
+        $user->setLastname("MALEO");
+        $user->setBirthday(new \DateTime('1993-10-13 12:00:00'));
+        $user->setSex('M');
+        $user->setEmail("sidneymaleoregis@gmail.com");
+        $user->setLang("fr");
+        $user->setState("1");
+        $user->setCountry("Congo");
+        $user->setTown("Brazzaville");
+        $user->setOnline("1");
+        $user->setActive("1");
+        $user->setActivationCode("1234");
+        $user->setKeyPush("EDF7845445GT454dfgh1455hj4yuu4");
+        $user->setTokenUser("4558rtttrtrtr");
+        $user->setPhoto("maleo.png");
+        $user->setPassword("Filstel1993");
+
+        $manager->persist($user);
+        $manager->flush();
+
+    }
+
+
+
+
 
     public function loadProblematic(ObjectManager $manager) {
         $categoryProblematicReligionFr = $this->getReference("category_religion_fr");
@@ -329,7 +373,7 @@ class AppFixtures extends Fixture
 
     }
 
-    public function loadPublicMessagePicture(ObjectManager $manager) {
+    /*public function loadPublicMessagePicture(ObjectManager $manager) {
 
-    }
+    }*/
 }
