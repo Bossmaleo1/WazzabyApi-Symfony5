@@ -107,10 +107,6 @@ class User implements UserInterface
      */
     private $keyPush;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $tokenUser;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -297,18 +293,6 @@ class User implements UserInterface
     public function setKeyPush(string $keyPush): self
     {
         $this->keyPush = $keyPush;
-
-        return $this;
-    }
-
-    public function getTokenUser(): ?string
-    {
-        return $this->tokenUser;
-    }
-
-    public function setTokenUser(string $tokenUser): self
-    {
-        $this->tokenUser = $tokenUser;
 
         return $this;
     }
